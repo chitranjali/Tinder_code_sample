@@ -5,5 +5,5 @@ from .models import Adult
 class AdultFilter(FilterSet):
     class Meta:
         model = Adult
-        fields = {'sex':["contains"], 'race':["contains"], 'relationship':['contains']}
+        fields = {'sex':["icontains"], 'race':["icontains"], 'relationship':['icontains']}
 

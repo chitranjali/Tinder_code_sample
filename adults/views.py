@@ -11,14 +11,13 @@ from .filters import AdultFilter
 
 class HomeView(View):
     def get(self, request, *args, **kwargs):
-        return render(request, 'adults/charts.html', {"customers": 10})
+        return render(request, 'adults/charts.html')
 
 
 class FilteredAdultListView(SingleTableMixin, FilterView):
     table_class = AdultTable
     model = Adult
     template_name = 'adults/adult_list.html'
-    # paginate_by = 25
     filterset_class = AdultFilter
 
 
@@ -36,8 +35,14 @@ class ChartData(APIView):
             rel_lables.append(status)
             no_of_people.append(people)
 
-        male_count = Adult.objects.filter(sex=" Male").count()
-        female_count = Adult.objects.filter(sex=" Female").count()
+        adults_sex_count = Adult.objects.values('sex').order_by('sex').annotate(the_count=Count('sex'))
+        male_count, female_count = 0, 0
+        for d in adults_sex_count:
+            if ' Male' == d['sex']:
+                male_count = d.get('the_count', 0)
+            elif ' Female' == d['sex']:
+                female_count = d.get('the_count', 0)
+
 
         labels = ["Males", "Females"]
         default_items = [male_count, female_count]

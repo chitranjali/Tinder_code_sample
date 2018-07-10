@@ -15,12 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.conf.urls import url
+from django.conf.urls import include,url
 from adults.views import HomeView, ChartData, FilteredAdultListView
+from django.conf import settings
+from django.views.decorators.cache import cache_page
 
 urlpatterns = [
-    url(r'^$', HomeView.as_view(), name='home'),
+    url(r'^$', cache_page(60*60)(HomeView.as_view()), name='home'),
     path('admin/', admin.site.urls),
     url(r'^api/chart/data/$', ChartData.as_view()),
-    url(r'^adult/list/$', FilteredAdultListView.as_view()),
+    url(r'^adult/list/$', cache_page(60*60) (FilteredAdultListView.as_view()), name='adult_list'),
 ]
+#
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += [
+                      url(r'^__debug__/', include(debug_toolbar.urls)),
+                  ]
