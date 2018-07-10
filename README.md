@@ -12,19 +12,19 @@
 * python manage.py createcachetable - #for caching
 * Run the development server - python manage.py runserver
 
-#####Home View
+##### Home View
 * distribution of number of males and females
 * number of people in each relationship status. 
 
 <img src="/docs/home.png"/>
 
-#####Home View - without cache
+##### Home View - without cache
 <img src="/docs/sc.png"/>
 
-#####Home from cache
+##### Home from cache
 <img src="/docs/home_cache.png"/>
 
-#####Data View
+##### Data View
 data with filter : sex, race, and relationship
 
 <img src="/docs/data.png"/>
